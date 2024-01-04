@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>IoT assignment</title>
+    <link rel="stylesheet" href='../static/style.css'/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+	body {
+		text-align: center;
+        }
+        
+        .gauge-container {
+            display: flex;
+            justify-content: center;
+            margin: 1em;
+        }
+        
+        .gauge {
+            width: 200px;
+            height: 160px;
+            margin: 0 1em;
+        }
+        
+        .plot-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1em;
+        }
+        
+        .plot {
+            width: 49%;
+            margin: 1em;
+        }
+    </style>
+</head>
+
+<body>
+	<h1>BME280 sensor Data </h1>
+	<div class="gauge-container">
+		<div id="g1" class="gauge"></div>
+		<div id="g2" class="gauge"></div>
+		<div id="g3" class="gauge"></div>
+	</div>
+	<hr>
+	<h3> Last Sensors Reading: {{ time }} ==> <a href="/" class="button">REFRESH</a></h3>	
+	<hr>
+	<h3> HISTORICAL DATA </h3>
+		<p> Enter number of samples to retrieve:
+		<form method="POST">
+			<input name="numSamples" value="{{numSamples}}">
+			<input type="submit">
+		</form></p>
+		<hr>
+	<div class="plot-container">
+		<div class="plot">
+			<img src="/plot/temp" alt="Temperature Plot">
+		</div>
+		<div class="plot">
+			<img src="/plot/hum" alt="Humidity Plot">
+		</div>
+		<div class="plot">
+			<img src="/plot/pres" alt="Pressure Plot">
+		</div>
+	</div>
+	
+	<p> @2018 Developed by MJRoBot.org</p>
+    
+    <script src="../static/raphael-2.1.4.min.js"></script>
+    <script src="../static/justgage.js"></script>
+    <script>
+		var g1, g2, g3;
+		document.addEventListener("DOMContentLoaded", function(event) {
+			g1 = new JustGage({
+				id: "g1",
+				value: {{temp}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: -10,
+				max: 50,
+				title: "Temperature",
+				label: "Celcius"
+			});
+
+			g2 = new JustGage({
+				id: "g2",
+				value: {{hum}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: 0,
+				max: 100,
+				title: "Humidity",
+				label: "%"
+			});
+			g3 = new JustGage({
+				id: "g3",
+				value: {{pres}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: 0,
+				max: 10000,
+				title: "Pressure",
+				label: "hPa"
+			});
+		});
+    </script>
+</body>
+
+</html>
